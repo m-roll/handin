@@ -16,11 +16,21 @@
  (let ([specs (sandbox-namespace-specs)])
    `(,(car specs)
      ,@(cdr specs)
-     lang/posn
+     ;; lang/posn
      ,@(if gui? '(mrlib/cache-image-snip) '()))))
+
+;; HACK: due to problem with taints in the broken scope language
+(sandbox-make-inspector      current-inspector)
+(sandbox-make-code-inspector current-code-inspector)
 
 ;; local overrides
 (require racket/runtime-path)
 (define-runtime-path overrides "overridden-collects")
 (sandbox-override-collection-paths
  (cons overrides (sandbox-override-collection-paths)))
+
+(sandbox-path-permissions
+ `([exists ,(current-directory)]
+   [exists "/home/eli/plt/bin"]            ; FIXME!!
+   [read   "/home/eli/.racket/links.rktd"] ; FIXME!!
+   ,@(sandbox-path-permissions)))
