@@ -12,3 +12,7 @@ menu.
 
 After installing, see the "Handin Server" documentation that is added
 to the Racket documentation.
+
+mroll edits:
+
+making this into a module for extensibility
